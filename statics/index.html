@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="css/header.css">
+<link rel="stylesheet" type="text/css" href="css/index.css">
+<link rel="stylesheet" type="text/css" href="css/pageNav.css">
+</head>
+<body>
+	<header class="container-fluid">
+		 
+	</header>
+	<main>
+		
+	</main>
+	<!--register Modal -->
+	<div class="modal fade" id="register" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title" id="myModalLabel">用户注册</h4>
+	      </div>
+	      <div class="modal-body">
+				  <div class="user">
+			      	 <label>用户名</label>
+			         <input id="username" type="text" class="form-control" id="inputEmail3" placeholder="输入用户名">
+			         <span style="display: none"></span>
+			      </div>
+			      <div class="pwd1">
+			      	 <label>密码</label>
+			         <input id="pwd1" type="password" class="form-control" id="inputEmail3" placeholder="输入密码">
+			         <span style="display: none">密码长度为6-10位！</span>
+			      </div>
+			      <div class="pwd2">
+			      	 <label>确认密码</label>
+			         <input id="pwd2" type="password" class="form-control" id="inputEmail3" placeholder="再次输入密码">
+			         <span style="display: none">两次密码不一致！</span>
+			      </div>
+			      <div class="email">
+			      	 <label>邮箱</label>
+			         <input id="email" type="email" class="form-control" id="inputEmail3" placeholder="输入邮箱">
+			         <span style="display: none">邮箱格式不正确！</span>
+			      </div>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-primary" id="reg">注册</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<!--login Modal -->
+	<div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title" id="myModalLabel">用户登录</h4>
+	      </div>
+	      <div class="modal-body">
+				  <div class="log_user">
+			      	 <label>用户名</label>
+			         <input id="log_username" type="text" class="form-control" placeholder="输入用户名">
+			         <span style="display: none"></span>
+			      </div>
+			      <div class="log_pwd">
+			      	 <label>密码</label>
+			         <input id="log_pwd" type="password" class="form-control" placeholder="输入密码">
+			         <span style="display: none"></span>
+			      </div>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-primary" id="log">登录</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
+
+	<div class="bginfo ">
+		<p><br/>基于nodeJS+express+mongDB的拉勾网后台管理系统<br/>
+			<pre>  
+				所用到的node模块：
+						express、formidable、mongoose、body-parser
+				所用到的第三方库和插件：
+				   		jquery、jquery.cookie、bootstrap、artTemplate、pageNav
+			</pre>
+		</p>
+	</div>
+	
+	<!-- 职位管理 -->
+	<div class="container job" style="display: none">
+		<div class="top">
+			<h3 class="fl">职位管理</h3>
+			<button class="btn btn-primary" data-toggle="modal" data-target="#job">添加</button>
+		</div>
+		<div class="table-responsive">
+			<table class="table table-bordered table-hover">
+			  	<thead>
+					<tr>
+						<td class="col-md-1">序号</td>
+						<td class="col-md-1">公司logo</td>
+						<td class="col-md-1">职位名称</td>
+						<td class="col-md-1">公司名称</td>
+						<td class="col-md-1">工作经验</td>
+						<td class="col-md-1">职位类型</td>
+						<td class="col-md-1">工作地点</td>
+						<td class="col-md-1">职位薪资</td>
+						<td class="col-md-1">操作</td>
+					</tr>
+			  	</thead>
+			  	<tbody>
+					
+			  	</tbody>
+			  	<script type="text/html" id="jobTemp">
+			  		{{each list as v i}}
+					<tr data-id={{v._id}}>
+						<td class="idx">{{v.idx}}</td>
+						<td class="logo"><img width="45" height="45" src={{v.logo}}></td>
+						<td class="jobName">{{v.jobName}}</td>
+						<td class="companyName">{{v.companyName}}</td>
+						<td class="jobExp">{{v.jobExp}}</td>
+						<td class="jobType">{{v.jobType}}</td>
+						<td class="jobPlace">{{v.jobPlace}}</td>
+						<td class="jobMoney">{{v.jobMoney}}</td>
+						<td><a href="#" class="update" data-toggle="modal" data-target="#job">修改</a>&emsp;<a href="javascript:void(0)" class="delete">删除</a></td>
+					</tr>
+					{{/each}}
+			  	</script>
+			</table>
+		</div>
+
+		<nav aria-label="Page navigation" class="page-nav-outer" id="PageNavId"></nav>
+	</div>
+
+		<!--job Modal -->
+	<div class="modal fade" id="job" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title" id="myModalLabel">职位信息</h4>
+	      </div>
+	      <div class="modal-body">
+				  <div class="job_file">
+			      	 <label>公司logo</label>
+			         <input id="job_file" type="file" class="form-control">
+			         <img id="logo" src="" width="100" height="100" style="display: none">
+			         <span style="display: none"></span>
+			      </div>
+			      <div class="job_name">
+			      	 <label>职位名称</label>
+			         <input id="job_name" type="text" class="form-control" placeholder="输入职位名">
+			         <span style="display: none"></span>
+			      </div>
+			      <div class="company_name">
+			      	 <label>公司名称</label>
+			         <input id="company_name" type="text" class="form-control" placeholder="输入公司名称">
+			         <span style="display: none"></span>
+			      </div>
+			      <div class="job_exp">
+			      	 <label>工作经验</label>
+			         <input id="job_exp" type="text" class="form-control" placeholder="输入工作经验">
+			         <span style="display: none"></span>
+			      </div>
+			      <div class="job_type">
+			      	 <label>职位类型</label>
+			         <input id="job_type" type="text" class="form-control" placeholder="输入职位类型">
+			         <span style="display: none"></span>
+			      </div>
+			      <div class="job_place">
+			      	 <label>工作地点</label>
+			         <input id="job_place" type="text" class="form-control" placeholder="输入工作地点">
+			         <span style="display: none"></span>
+			      </div>
+			      <div class="job_money">
+			      	 <label>岗位薪资</label>
+			         <input id="job_money" type="text" class="form-control" placeholder="输入岗位薪资">
+			         <span style="display: none"></span>
+			      </div>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-primary" id="sbt">提交</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="js/jquery.cookie.js"></script>
+<script src="js/template.js"></script>
+<script src="js/pageNav.js"></script>
+<script src="js/index.js"></script>
+</body>
+</html>

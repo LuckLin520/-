@@ -1,0 +1,43 @@
+ul li{list-style: none}
+a:hover{text-decoration: none;}
+
+header.container-fluid{
+	background: #2e2e2e;
+	height: 55px;
+}
+.navfl{
+	float: left;
+}
+.navfl li{
+	float: left;
+	font-size: 16px;
+	line-height: 55px;
+	padding: 0 10px;
+}
+.navfl li:hover{
+	background: #000;
+}
+.navfl li a{
+	color: #a6a6a6;
+}
+.navfl li:hover a{
+	color: #fff;
+}
+.navfl li:nth-child(1) a{
+	font-size: 18px;
+}
+.navfr{
+	float:right;
+}
+.navfr li{
+	float: right;
+	margin-right: 20px;
+	font-size: 16px;
+	line-height: 55px;
+}
+.navfr li a{
+	color: #a6a6a6;
+}
+.navfr li a:hover{
+	color: #fff;
+}
