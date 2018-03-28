@@ -2,6 +2,7 @@ var express = require("express");
 var app = express();
 var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
+var fs = require("fs");
 
 app.use(express.static("statics"));
 app.use(bodyParser.json());
@@ -113,18 +114,27 @@ app.get("/loading", function(req, res){
 })
 //删除指定item
 app.post("/deleteItem", function(req, res){
-	Job.findOneAndRemove(req.body, function(err, doc){
+	var {_id, imgSrc} = req.body;
+	Job.findOneAndRemove({_id}, function(err, doc){
 		if(err){return};
 		res.send({
 			code: 0,
 			msg: "删除成功！"
 		})
 	})
+	fs.unlink("./uploadcache" + imgSrc, function(err){
+		if(err){
+			throw err;
+		}else{
+			console.log("图片删除成功")
+		}
+	})
 })
 //修改指定item
 app.post("/updateItem", function(req, res){
 	var {
-		_id, 
+		_id,
+		oldImgSrc,
 		logo,
 		jobName,
 		companyName,
@@ -147,7 +157,13 @@ app.post("/updateItem", function(req, res){
 				list: [doc]
 			})
 		})
-
+	fs.unlink("./uploadcache" + oldImgSrc, function(err){
+		if(err){
+			throw err;
+		}else{
+			console.log("原图已删除")
+		}
+	})
 })
 app.listen(4396, function(){
 	console.log("启动成功")

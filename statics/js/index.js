@@ -140,7 +140,9 @@ $(function(){
 					// 删除指定item
 					$("tbody").on("click", ".delete", function(){
 						if(confirm("确认删除该条数据？")){
-							$.post("/deleteItem", {_id: $(this).parents("tr").data("id")}, (data)=>{
+							var _id = $(this).parents("tr").data("id");
+							var imgSrc = $(this).parent().siblings(".logo").children("img").attr("src");
+							$.post("/deleteItem", {_id, imgSrc}, (data)=>{
 								if(!data.code){
 									$(this).parents("tr").remove();
 									alert(data.msg);
@@ -152,7 +154,7 @@ $(function(){
 					})
 
 					//修改
-					var _update = null;
+					var _update = null, oldImgSrc = null;
 					$("tbody").on("click", ".update", function(){//点击修改获取修改的原内容
 						_update = $(this);
 						$("#sbt").text("确认修改").unbind("click", sbtFn);//状态改为修改
@@ -171,18 +173,34 @@ $(function(){
 						$("#job_type").val(jobType);
 						$("#job_place").val(jobPlace);
 						$("#job_money").val(jobMoney);
+						oldImgSrc = logo;
 						checkSbt();//打开时隐藏所有sapn提示
 					})
 					//提交修改
 					$("#sbt").on("click", updateFn = function(){
 						var re = checkSbt();//上面的公用函数
-						re.params._id = _update.parents("tr").data("id");
 						if(re.correct){
-							$.post("/updateItem", re.params, (data)=>{
-								data.list[0].idx = _update.parent().siblings(".idx").text();
-								var html = template("jobTemp", data);
-								_update.parents("tr").replaceWith(html);
-								$("#job").modal("hide");
+							$.ajax({
+								url: "/upload",
+								type: "POST",
+								dataType:"json",
+								data: formdata,
+								contentType: false, //发送信息到服务器的内容类型 告诉jq不要去设置Content-Type请求头,默认是 application/x-www-form-urlencoded （form类型） 
+						        processData: false, //processData 是jq 独有的参数 用于对data参数进行序列化处理，默认值是true，
+						                     //所谓序列化 就是比如{ width:1680, height:1050 }参数对象序列化为width=1680&height=1050这样的字符串。
+							}).done(function(res){
+								if(!res.code){
+									$("#logo").show().attr("src", res.img).siblings("span").hide();//将路径改为服务器上的路径
+									re = checkSbt();
+									re.params._id = _update.parents("tr").data("id");
+									re.params.oldImgSrc = oldImgSrc;
+									$.post("/updateItem", re.params, (data)=>{
+										data.list[0].idx = _update.parent().siblings(".idx").text();
+										var html = template("jobTemp", data);
+										_update.parents("tr").replaceWith(html);
+										$("#job").modal("hide");
+									})
+								}
 							})
 						}
 						$(this).bind("click", sbtFn);
